@@ -1,0 +1,6 @@
+*.swp
+Cargo.lock
+target
+*.bk
+src/generated/*
+!src/generated/mod.rs

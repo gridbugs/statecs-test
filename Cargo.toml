@@ -1,0 +1,11 @@
+[package]
+name = "statecs-test"
+version = "0.1.0"
+authors = ["Stephen Sherratt <stephen@sherra.tt>"]
+
+build = "build.rs"
+
+[dependencies]
+
+[build-dependencies]
+statecs = { git = "https://github.com/stevebob/statecs.git", rev = "949ce79" }

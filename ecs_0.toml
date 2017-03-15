@@ -1,0 +1,12 @@
+data = [
+    { name = 'a', type = 'usize', copy = true },
+    { name = 'b', type = 'String' },
+]
+
+cells = [
+    { name = 'inventory', type = 'Vec<u64>' },
+]
+
+flags = [
+    { name = 'solid' },
+]

@@ -1,7 +1,8 @@
-use generated::{
-    generated_0_a,
-    generated_0_b,
-};
+use generated::generated_0_a;
+use generated::generated_0_b;
+
+use generated::generated_0_a::Ecs as EcsA;
+use generated::generated_0_b::Ecs as EcsB;
 
 #[test]
 fn component_set_single_bitfield() {
@@ -50,4 +51,31 @@ fn component_set_multi_bitfield() {
     assert!(!set.contains_b());
     assert!(set.is_empty());
 
+}
+
+#[test]
+fn set_iter() {
+
+    let mut ecs_a = generated_0_a::EcsCtx::new();
+    let mut ecs_b = generated_0_b::EcsCtx::new();
+
+    ecs_a.insert_solid(2);
+    ecs_a.insert_solid(4);
+    ecs_a.insert_solid(6);
+    ecs_a.insert_collider(3);
+    ecs_a.insert_opaque(5);
+
+
+    ecs_b.insert_solid(2);
+    ecs_b.insert_solid(4);
+    ecs_b.insert_solid(6);
+    ecs_b.insert_collider(3);
+    ecs_b.insert_opaque(5);
+
+    let mut solid_iter_a = ecs_a.id_iter_solid();
+    let mut solid_iter_b = ecs_b.id_iter_solid();
+
+    assert_eq!(solid_iter_a.next(), solid_iter_b.next());
+    assert_eq!(solid_iter_a.next(), solid_iter_b.next());
+    assert_eq!(solid_iter_a.next(), solid_iter_b.next());
 }

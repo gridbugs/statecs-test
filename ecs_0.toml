@@ -5,8 +5,11 @@ data = [
 
 cells = [
     { name = 'inventory', type = 'Vec<u64>' },
+    { name = 'knowledge', type = 'Vec<String>' },
 ]
 
 flags = [
     { name = 'solid' },
+    { name = 'opaque' },
+    { name = 'collider' },
 ]

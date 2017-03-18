@@ -3,7 +3,9 @@ use generated::generated_0_b;
 
 use generated::generated_0_a::Ecs as EcsA;
 use generated::generated_0_b::Ecs as EcsB;
+
 use generated::generated_0_a::Entity as EntityA;
+use generated::generated_0_a::EntityMut as EntityMutA;
 
 #[test]
 fn component_set_single_bitfield() {
@@ -91,4 +93,52 @@ fn entity_ref() {
     let entity = ecs_a.entity(0);
 
     assert_eq!(entity.copy_a(), Some(4));
+}
+
+#[test]
+fn action() {
+
+    let mut ecs = generated_0_a::EcsCtx::new();
+    let mut action = generated_0_a::EcsAction::new();
+
+    {
+        let mut entity = action.entity_mut(0);
+        entity.insert_solid();
+        entity.insert_a(100);
+    }
+
+    ecs.commit(&mut action);
+
+    {
+        let entity = ecs.entity(0);
+        assert!(entity.solid());
+        assert_eq!(entity.copy_a(), Some(100));
+    }
+
+    action.delete_solid(0);
+    ecs.commit(&mut action);
+
+    {
+        let entity = ecs.entity(0);
+        assert!(!entity.solid());
+    }
+
+    action.insert_a(1, 200);
+    action.insert_a(2, 300);
+
+    ecs.commit(&mut action);
+
+    assert_eq!(ecs.get_copy_a(0), Some(100));
+    assert_eq!(ecs.get_copy_a(1), Some(200));
+    assert_eq!(ecs.get_copy_a(2), Some(300));
+
+    action.swap_a(0, 1);
+    action.swap_a(1, 2);
+
+    ecs.commit(&mut action);
+
+
+    assert_eq!(ecs.get_copy_a(0), Some(200));
+    assert_eq!(ecs.get_copy_a(1), Some(300));
+    assert_eq!(ecs.get_copy_a(2), Some(100));
 }

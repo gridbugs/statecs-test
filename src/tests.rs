@@ -4,7 +4,6 @@ use generated::generated_0_b;
 use generated::generated_0_a::Ecs as EcsA;
 use generated::generated_0_b::Ecs as EcsB;
 use generated::generated_0_a::Entity as EntityA;
-use generated::generated_0_b::Entity as EntityB;
 
 #[test]
 fn component_set_single_bitfield() {

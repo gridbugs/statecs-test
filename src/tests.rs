@@ -3,6 +3,8 @@ use generated::generated_0_b;
 
 use generated::generated_0_a::Ecs as EcsA;
 use generated::generated_0_b::Ecs as EcsB;
+use generated::generated_0_a::Entity as EntityA;
+use generated::generated_0_b::Entity as EntityB;
 
 #[test]
 fn component_set_single_bitfield() {
@@ -78,4 +80,16 @@ fn set_iter() {
     assert_eq!(solid_iter_a.next(), solid_iter_b.next());
     assert_eq!(solid_iter_a.next(), solid_iter_b.next());
     assert_eq!(solid_iter_a.next(), solid_iter_b.next());
+}
+
+#[test]
+fn entity_ref() {
+
+    let mut ecs_a = generated_0_a::EcsCtx::new();
+
+    ecs_a.insert_a(0, 4);
+
+    let entity = ecs_a.entity(0);
+
+    assert_eq!(entity.copy_a(), Some(4));
 }

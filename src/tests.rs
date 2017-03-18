@@ -142,3 +142,33 @@ fn action() {
     assert_eq!(ecs.get_copy_a(1), Some(300));
     assert_eq!(ecs.get_copy_a(2), Some(100));
 }
+
+#[test]
+fn action_iterator() {
+
+    let mut ecs = generated_0_a::EcsCtx::new();
+    ecs.insert_a(0, 100);
+    ecs.insert_a(1, 200);
+    ecs.insert_a(2, 300);
+    ecs.insert_a(3, 400);
+    ecs.insert_a(4, 400);
+
+    let mut action = generated_0_a::EcsAction::new();
+    action.insert_a(0, 500);
+    action.swap_a(1, 2);
+    action.swap_a(3, 5);
+    action.delete_a(4);
+
+    let mut pos = action.positive_copy_iter_a(&ecs);
+    let mut neg = action.negative_iter_a(&ecs);
+
+    assert_eq!(pos.next(), Some((0, 500)));
+    assert_eq!(pos.next(), Some((1, 300)));
+    assert_eq!(pos.next(), Some((2, 200)));
+    assert_eq!(pos.next(), Some((5, 400)));
+    assert_eq!(pos.next(), None);
+
+    assert_eq!(neg.next(), Some(4));
+    assert_eq!(neg.next(), Some(3));
+    assert_eq!(neg.next(), None);
+}

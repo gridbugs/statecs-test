@@ -172,3 +172,24 @@ fn action_iterator() {
     assert_eq!(neg.next(), Some(3));
     assert_eq!(neg.next(), None);
 }
+
+#[test]
+fn commit_into() {
+
+    let mut ecs = generated_0_a::EcsCtx::new();
+    ecs.insert_a(0, 5);
+    ecs.insert_solid(0);
+
+    let mut action = generated_0_a::EcsAction::new();
+    action.entity_delete(ecs.entity(0));
+
+    let mut dest = generated_0_a::EcsAction::new();
+
+    ecs.commit_into(&mut action, &mut dest);
+
+    assert!(!ecs.contains_a(0));
+    assert!(!ecs.contains_solid(0));
+
+    assert_eq!(dest.get_copy_a(0), Some(5));
+    assert!(dest.contains_solid(0));
+}

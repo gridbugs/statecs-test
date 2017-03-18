@@ -1,4 +1,4 @@
-#![feature(btree_range, collections, collections_bound)]
+#![feature(btree_range, collections, collections_bound, collections_range)]
 
 mod generated;
 

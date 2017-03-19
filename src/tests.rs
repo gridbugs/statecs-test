@@ -2,7 +2,8 @@ use generated::generated_0_a;
 use generated::generated_0_b;
 
 use generated::generated_0_a::Ecs as EcsA;
-use generated::generated_0_b::Ecs as EcsB;
+use generated::generated_0_a::EcsMut as EcsMutA;
+use generated::generated_0_b::EcsMut as EcsMutB;
 
 use generated::generated_0_a::Entity as EntityA;
 use generated::generated_0_a::EntityMut as EntityMutA;
@@ -192,4 +193,24 @@ fn commit_into() {
 
     assert_eq!(dest.get_copy_a(0), Some(5));
     assert!(dest.contains_solid(0));
+}
+
+#[test]
+fn entity_ref_post_action() {
+
+    let mut ecs = generated_0_a::EcsCtx::new();
+    ecs.insert_a(0, 100);
+    ecs.insert_a(1, 200);
+    ecs.insert_a(2, 300);
+    ecs.insert_solid(0);
+
+
+    let mut action = generated_0_a::EcsAction::new();
+    action.swap_a(0, 1);
+    action.insert_a(2, 400);
+    action.delete_solid(0);
+
+    let post_entity = ecs.post_entity(&action, 0);
+    assert_eq!(post_entity.copy_a(), Some(200));
+    assert!(!post_entity.solid());
 }
